@@ -31,16 +31,16 @@ export default {
     const WS请求 = 读取我的请求标头 == "websocket";
 
     const 路径配置 = {
-      威图锐: `/${encodeURIComponent(订阅路径)}/${威图锐}`,
-      科拉什: `/${encodeURIComponent(订阅路径)}/${科拉什}`,
-      订阅聚合: `/${encodeURIComponent(订阅路径)}/info`,
-      通用订阅: `/${encodeURIComponent(订阅路径)}`,
+      威图锐: `/${encodeURI(订阅路径)}/${威图锐}`,
+      科拉什: `/${encodeURI(订阅路径)}/${科拉什}`,
+      订阅聚合: `/${encodeURI(订阅路径)}/info`,
+      通用订阅: `/${encodeURI(订阅路径)}`,
     };
 
     const 是正确路径 = url.pathname === 路径配置.威图锐 ||
                       url.pathname === 路径配置.科拉什 ||
                       url.pathname === 路径配置.订阅聚合 ||
-                      url.pathname === `/${encodeURIComponent(订阅路径)}`
+                      url.pathname === `/${encodeURI(订阅路径)}`
 
     if (!WS请求 && !是正确路径) {
       if (伪装网页) {
