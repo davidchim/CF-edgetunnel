@@ -6,6 +6,8 @@ let 伪装网页;
 let 验证UUID;
 let 反代IP = "proxyip.cmliussss.net";
 
+const 默认优选 = "time.is";
+
 // 关键词拆分(防检测)
 const 威图锐拆分 = ["v2", "ray"];
 const 科拉什拆分 = ["cla", "sh"];
@@ -246,17 +248,21 @@ async function 提示界面() {
 }
 
 function 威图锐配置文件(hostName) {
-  const 配置内容 = `${维列斯}://${验证UUID}@${hostName}:443?encryption=none&security=tls&sni=${hostName}&fp=chrome&type=ws&host=${hostName}#${hostName}`;
+  let 最终地址 = hostName.endsWith('.pages.dev') ? 默认优选 : hostName;
+
+  const 配置内容 = `${维列斯}://${验证UUID}@${最终地址}:443?encryption=none&security=tls&sni=${hostName}&fp=chrome&type=ws&host=${hostName}#${最终地址}`;
 
   return new Response(配置内容);
 }
 
 function 科拉什配置文件(hostName) {
+  let 最终地址 = hostName.endsWith('.pages.dev') ? 默认优选 : hostName;
+
   const 配置内容 = `
 proxies:
-- name: ${hostName}
+- name: ${最终地址}
   type: ${维列斯}
-  server: ${hostName}
+  server: ${最终地址}
   port: 443
   uuid: ${验证UUID}
   udp: true
@@ -272,7 +278,7 @@ proxy-groups:
 - name: 节点列表
   type: select
   proxies:
-    - ${hostName}
+    - ${最终地址}
 
 rules:
   - GEOSITE,cn,DIRECT
@@ -281,8 +287,4 @@ rules:
 `;
 
   return new Response(配置内容);
-}
-
-function 聚合信息(hostName) {
-  return new Response(`${hostName}#${验证UUID}`);
 }
